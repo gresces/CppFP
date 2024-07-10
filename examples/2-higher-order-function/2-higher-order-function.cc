@@ -1,5 +1,7 @@
 /*
 * This program tries to count files' line number in FP.
+* It's just a example for people who reach this section, 
+* so it's not a mature version. :-)
 */
 #include <filesystem>
 #include <format>

@@ -1,0 +1,14 @@
+= Ref.
+:author: Gresces
+:email: gresces@foxmail.com
+
+== C++ <ranges>
+. link:++https://www.bilibili.com/video/BV1aV411q752++[在C++里面用管道？C++20 Ranges简介 - C++ Weekly EP5]
+. link:++https://en.cppreference.com/w/cpp/ranges++[Ranges library (C++20)]
+. link:++https://www.cnblogs.com/linxmouse/p/17579183.html++[C++20 Ranges简述]
+. link:++https://learn.microsoft.com/zh-cn/cpp/standard-library/ranges?view=msvc-170++[Microsoft Docs ranges]
+
+== High-order Function 高阶函数
+. link:++https://www.manning.com/books/functional-programming-in-c-plus-plus++[Functional Programming in C++, Book, Ivan Čukić]
+. link:++https://en.cppreference.com/w/cpp/algorithm/accumulate++[cpprefrence.com std::accumulate]
+. https://www.chuelebos.com/blog/cpp/aim_ioi_cpp-20_accumulate_stl_of_c+\+[剑指信奥 | C++ 之 STL - 算法 acumulate]

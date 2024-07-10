@@ -1,0 +1,84 @@
+= High-order Function 高阶函数
+:author: Gresces
+:email: gresces@foxmail.com
+:stem: asciimath
+:source-highlighter: rouge
+
+数学上的模型即为复合函数。
+
+FP中的高阶函数为：可以接收函数作为参数或者返回一个函数的函数。
+
+本节的内容结构即为通过这两种定义（函数作为参数，返回函数）分别介绍编程模式：
+
+== filter and transform 过滤和转换
+
+过滤和转换是两种通用的编程模式，这两种模式都是接受函数作为参数的原理。结合高阶函数来说，过滤是同种类型的转换（这里的类型一般是view或者STL中的复杂数据类型），转换则将一种类型转换为另一种类型。
+
+[stem]
+++++
+\text{filter: }(\text{collect<Type A>}, (\text{func: Type A}\to bool))\to \text{collect<Type A>}
+++++
+[stem]
+++++
+\text{transform: }(\text{collect<Type A>}, (\text{func: Type A}\to\text{Type B}))\to \text{collect<Type B>}
+++++
+
+== folding 折叠
+
+折叠也使用函数作为参数。在C++函数`accumulate()`中，可以使用二元运算来定义折叠的方式。折叠函数的表示为：
+[stem]
+++++
+\text{folding: }(R, T) \to R
+++++
+其中R为每一次运算的结果，而T为运算叠加的条目。
+
+一元折叠的对应的数学特性为左结合，写成中缀表达式即：
+[stem]
+++++
+(((r_0\bigtriangledown t_0)\bigtriangledown t_1)\bigtriangledown ...\bigtriangledown t_n)
+++++
+
+== resursion 递归
+函数式编程鼓励使用递归进行循环操作而不是使用for循环来保证函数的无副作用，但是常规的递归调用会导致栈空间的增长和浪费。所以使用尾递归进行编译器优化操作。
+
+下面举一个简单的阶乘作为例子：
+[source,cpp]
+----
+auto factorialRecursion(int number) -> int {
+  if (number == 1)
+    return number;
+  else
+    return number * factorialRecursion(number - 1); 
+}
+
+// factorialRecursion(5)
+// 5 * factorialRecursion(4)
+// 5 * (4 * factorialRecursion(3))
+// 5 * (4 * (3 * factorialRecursion(2)))
+// 5 * (4 * (3 * (2 * factorialRecursion(1))))
+// 5 * (4 * (3 * (2 * 1)))
+// 5 * (4 * (3 * 2))
+// 5 * (4 * 6)
+// 5 * 24
+// 120
+----
+
+出现这个情况的原因就是使用常规的递归会导致一部分变量（函数的运行时信息）保存在栈空间中供函数返回时调用。所以可以尝试将这部分信息进行缩减，试想一下：如果函数的绝大部分运算在调用新的函数之前就已经完成，调用新的函数只是为了进行下一步的运算，而新的运算绝对不会用到除了上个函数的结果之外的所有信息。这样是否可以在原来函数的栈空间的位置上直接进行新的函数调用（rsp指针不动）。
+
+而这部分操作可以通过编译器来完成。
+
+[source,cpp]
+----
+auto factorial_tail(int num, int result) -> int {
+    if (num == 0) return result;
+    return factorial_tail(num, num * result);
+}
+----
+
+== 相关的STL算法函数
+
+=== ``std::partition`` ``std::stable_partition``
+接受一个集合和一个谓词，将这个集合进行重排，把符合条件的和不符合条件的分开。stable版本不会改变对应集合中的元素的相对位置。
+
+=== ``std::remove_if`` ``std::copy_if``
+前者可以删除集合中满足谓词或者包含特定值的函数。后者是一个相对纯的函数，可以把所有的满足谓词条件的元素复制到新的集合中。

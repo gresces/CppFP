@@ -1,0 +1,18 @@
+= C++ Functional Programming
+:author: Gresces
+:email: gresces@foxmail.com
+:toc: right
+:toc-title: C++ Functional Programming
+:source-highlighter: rouge
+:doctype: book
+---
+
+<<<
+include::0-ranges.adoc[leveloffset=1]
+<<<
+include::1-purefunctions.adoc[leveloffset=1]
+<<<
+include::2-higher-order-function.adoc[leveloffset=1]
+
+<<<
+include::00-Ref.adoc[leveloffset=1]
